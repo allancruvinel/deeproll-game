@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class playerroda : MonoBehaviour {
 
-    //codigo que gira a bola de acordo com o dedo tocando a tela
+    //codigo que gira a bola de acordo com o dedo tocando a tela, bem legal
 
     private float baseAngle = 0.0f;
 
