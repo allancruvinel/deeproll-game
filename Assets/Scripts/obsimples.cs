@@ -24,13 +24,18 @@ public class obsimples : MonoBehaviour {
         {
             Corpo.velocity = new Vector3(0, 0, -scriptcano.speed * 3.09f);
         }
+        if(Input.GetKey(KeyCode.A)){
+            Debug.Log("Apertou A");
+        }
 	}
 
-    void OnCollisionEnter(Collider collision)
+    void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.tag == "Player")
         {
             colidiu = true;
         }
+        
     }
+
 }
