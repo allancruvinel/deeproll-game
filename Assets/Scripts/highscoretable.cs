@@ -9,15 +9,16 @@ public class highscoretable : MonoBehaviour
 
     private Transform entryContainer;
     private Transform entryTemplate;
-    float templateHeight = 65f;
     private List<HighScoreEntry> highscoreEntrylist;
     private List<Transform> highScoreEntryTranformList;
     private void Start() {
         entryContainer = transform.Find("highscoreEntryContainer");
         entryTemplate = entryContainer.Find("highscoreEntryTemplate");
         Debug.Log("entrou no Awake");
-        entryTemplate.gameObject.SetActive(false);  
+        entryTemplate.gameObject.SetActive(false); 
 
+
+        
         highscoreEntrylist = new List<HighScoreEntry>(){
             new HighScoreEntry{score = 51245},
             new HighScoreEntry{score = 4854},
@@ -28,11 +29,11 @@ public class highscoretable : MonoBehaviour
             new HighScoreEntry{score = 77412},
             new HighScoreEntry{score = 98654}
         };
-        highscoreEntrylist.Add(new HighScoreEntry(10000));
-        highscoreEntrylist.Add(new HighScoreEntry(99999));
-        highscoreEntrylist.Add(new HighScoreEntry(99999));
 
-        for(int i =0;i<highscoreEntrylist.Count;i++){
+        
+
+
+            for(int i =0;i<highscoreEntrylist.Count;i++){
             for(int j = i + 1; j<highscoreEntrylist.Count;j++){
                 if(highscoreEntrylist[j].score>highscoreEntrylist[i].score){
                     HighScoreEntry aux = highscoreEntrylist[i];
@@ -47,6 +48,14 @@ public class highscoretable : MonoBehaviour
             CreateHighCoreEntryTransform(highScoreEntry,entryContainer,highScoreEntryTranformList);
         }
 
+        /*
+        Highscores highscores = new Highscores{highscoreEntrylist = highscoreEntrylist};
+        string json = JsonUtility.ToJson(highscores);
+        PlayerPrefs.SetString("highscoreTable",json);
+        PlayerPrefs.Save();
+        Debug.Log(PlayerPrefs.GetString("highscoreTable"));
+        */
+        
 
     }
 
@@ -75,14 +84,16 @@ public class highscoretable : MonoBehaviour
             transformlist.Add(entryTransform);
     }
 
+    
+    private class Highscores{
+        public List<HighScoreEntry> highscoreEntrylist;
+
+
+    }
+    
+
+    [System.Serializable]
     private class HighScoreEntry{
         public int score;
-
-        public HighScoreEntry(){
-            
-        }
-        public HighScoreEntry(int Score){
-            this.score = Score;
-        }
     }
 }
