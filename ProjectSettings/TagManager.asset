@@ -13,6 +13,7 @@ TagManager:
   - Points
   - InstanciaObj
   - gamingover
+  - scoretag
   layers:
   - Default
   - TransparentFX

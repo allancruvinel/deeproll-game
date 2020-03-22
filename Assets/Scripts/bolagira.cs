@@ -11,10 +11,13 @@ public class bolagira : MonoBehaviour {
     public int VidaPlayer;
     public int PontosPorEstrela = 5;
     public float PontuacaoPlayer;
+    public int pontoplayerInt;
     public int HpMenosObs1=50;
     public int HpMenosObs2=80;
     public float TempoInvulneravel;
     private float Invulnerabilidade;
+    public float timeBetweenBlinks=.2f;
+    private float decaingBlinkTime;
     #endregion
 
     #region Variáveis de UI
@@ -27,6 +30,7 @@ public class bolagira : MonoBehaviour {
     rodatextue scriptcano;
     GameObject ObjetoSom;
     GerenciadorSons scriptsom;
+    Renderer render;
     
     #endregion
 
@@ -41,6 +45,8 @@ public class bolagira : MonoBehaviour {
         scriptsom = ObjetoSom.GetComponent<GerenciadorSons>();
         VidaPlayer = 100;
         PontuacaoPlayer = 0;
+        render = GetComponent<Renderer>();
+        decaingBlinkTime = timeBetweenBlinks;
 	}
 	
 	// Update is called once per frame
@@ -48,11 +54,25 @@ public class bolagira : MonoBehaviour {
         //velocidadequegira = scriptcano.speed;
         //transform.Rotate(regulagem * velocidadequegira, 0, 0);  //gira a bola de acordo com a velocidade do cano
         TextoVidaPlayer.text = "Energia " + VidaPlayer.ToString()+"%";
-        TextoPontoPlayer.text = "Pontuação "+PontuacaoPlayer.ToString();
+        pontoplayerInt = (int)PontuacaoPlayer;
+        TextoPontoPlayer.text = "Pontuação:  "+pontoplayerInt.ToString();
 
         Invulnerabilidade -= Time.deltaTime;
 
-        PontuacaoPlayer+=Time.deltaTime;
+        PontuacaoPlayer+=Time.deltaTime*3;
+
+
+
+        if(Invulnerabilidade>0){
+            decaingBlinkTime-=Time.deltaTime;
+            if(decaingBlinkTime<0){
+                render.enabled = !render.enabled;
+                decaingBlinkTime = timeBetweenBlinks;
+            }   
+        }
+        else{
+            render.enabled=true;
+        }
 	}
 
     private void OnCollisionEnter(Collision collision)
@@ -60,6 +80,10 @@ public class bolagira : MonoBehaviour {
 
         if(collision.gameObject.tag =="Points"){
             PontuacaoPlayer+=PontosPorEstrela;
+            VidaPlayer+=1;
+            if(VidaPlayer>100){
+                VidaPlayer=100;
+            }
             scriptsom.SomEstrelaColeta.Play();
             Destroy(collision.gameObject);
         }
@@ -69,6 +93,9 @@ public class bolagira : MonoBehaviour {
             if (Invulnerabilidade <= 0)
             {
                 VidaPlayer -= HpMenosObs1;
+                if(VidaPlayer<0){
+                    VidaPlayer=0;
+                }
                 scriptsom.SomDanoPlayer.Play();
                 Invulnerabilidade = TempoInvulneravel;
             }
@@ -78,9 +105,14 @@ public class bolagira : MonoBehaviour {
             if (Invulnerabilidade <= 0)
             {
                 VidaPlayer -= HpMenosObs2;
+                if(VidaPlayer<0){
+                    VidaPlayer=0;
+                }
                 scriptsom.SomDanoPlayer.Play();
                 Invulnerabilidade = TempoInvulneravel;
             }
         }
     }
+
+    
 }
