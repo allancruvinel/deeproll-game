@@ -15,9 +15,11 @@ public class GameFlow : MonoBehaviour
     private GameObject Cano;
     private GameObject ObjetoScore;
     private GameObject Instanciador;
+    private GameObject UiObject;
 
     public GameObject GameOverUI;
     public GameObject ScoreUI;
+
 
     public bool GameOver;
     bolagira ScriptPlayer;
@@ -25,6 +27,8 @@ public class GameFlow : MonoBehaviour
     criaobstaculo ScriptObstaculo;
 
     highscoretable ScriptScore;
+
+    GerenciadorUI ScriptUI;
 
     // Start is called before the first frame update
     void Start()
@@ -37,7 +41,8 @@ public class GameFlow : MonoBehaviour
         ScriptObstaculo = Instanciador.GetComponent<criaobstaculo>(); 
         ObjetoScore = GameObject.FindGameObjectWithTag("scoretag");
         ScriptScore = ObjetoScore.GetComponent<highscoretable>();
-        //GameOverUI = GameObject.FindGameObjectWithTag("gamingover");
+        UiObject = GameObject.FindGameObjectWithTag("canvas");
+        ScriptUI = UiObject.GetComponent<GerenciadorUI>();
 
         ScoreUI.gameObject.SetActive(false);
 
@@ -74,7 +79,10 @@ public class GameFlow : MonoBehaviour
             GameOver = true;
             Time.timeScale = 0f;
             GameOverUI.SetActive(true);
-
+        }
+        else
+        {
+            Time.timeScale = 1f;
         }
         if(GameOver){
             ScriptScore.addScoreEntry(ScriptPlayer.pontoplayerInt);
