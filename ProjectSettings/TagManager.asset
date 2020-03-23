@@ -18,6 +18,7 @@ TagManager:
   - GameFlow
   - PauseedUI
   - giradorcano
+  - ADMOB
   layers:
   - Default
   - TransparentFX

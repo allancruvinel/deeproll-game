@@ -30,6 +30,9 @@ public class GameFlow : MonoBehaviour
 
     GerenciadorUI ScriptUI;
 
+    private GameObject ads;
+    adMobScript ScriptAD;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,6 +46,10 @@ public class GameFlow : MonoBehaviour
         ScriptScore = ObjetoScore.GetComponent<highscoretable>();
         UiObject = GameObject.FindGameObjectWithTag("canvas");
         ScriptUI = UiObject.GetComponent<GerenciadorUI>();
+
+        ads = GameObject.FindGameObjectWithTag("ADMOB");
+        ScriptAD = ads.GetComponent<adMobScript>();
+        ScriptAD.RequestInterstitial();
 
         ScoreUI.gameObject.SetActive(false);
 
@@ -87,7 +94,10 @@ public class GameFlow : MonoBehaviour
         if(GameOver){
             ScriptScore.addScoreEntry(ScriptPlayer.pontoplayerInt);
             ScriptScore.geraScore();
+            
+            ScriptAD.showAD();
             ScoreUI.gameObject.SetActive(true);
+
         }
 
     }

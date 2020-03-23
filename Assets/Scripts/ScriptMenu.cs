@@ -7,10 +7,14 @@ public class ScriptMenu : MonoBehaviour
 {
 
     public GameObject CreditsUI;
+    private GameObject ads;
+    adMobScript ScriptAD;
     // Start is called before the first frame update
     void Start()
     {
-        
+        ads = GameObject.FindGameObjectWithTag("ADMOB");
+        ScriptAD = ads.GetComponent<adMobScript>();
+        ScriptAD.RequestBanner();
     }
 
     // Update is called once per frame
@@ -20,7 +24,9 @@ public class ScriptMenu : MonoBehaviour
     }
 
     public void StartGame(){
+        ScriptAD.RemoveBanner();
         SceneManager.LoadScene("Game_Scene");
+
     }
     public void OpenCredits(){
         CreditsUI.gameObject.SetActive(true);
